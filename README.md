@@ -65,6 +65,6 @@ Here is the complete layout of the final project repository:
 
 ---
 
-## 🚀 Deployment & Quickstart
+## Deployment & Quickstart
 
 Please refer to **`QUICKSTART.md`** for complete, step-by-step installation instructions on booting the Gradio interface and configuring the security API keys.
