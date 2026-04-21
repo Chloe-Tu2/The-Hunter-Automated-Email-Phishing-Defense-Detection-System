@@ -2,7 +2,7 @@
 
 **ITAI 2376 - Deep Learning in AI**
 **Houston City College**
-**Team 1:** Chloe Tu, Mattew Choo, Franck Kolontchang
+**Team 1:** Chloe Tu, Matthew Choo, Franck Kolontchang
 **Date:** April 2026
 
 ---
