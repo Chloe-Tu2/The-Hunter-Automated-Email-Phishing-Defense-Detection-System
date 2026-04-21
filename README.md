@@ -1,6 +1,13 @@
+<div align="center">
+
+<img src="results/demo_visualizations/The_Hunter_icon_image.png" alt="The Hunter Icon" width="180"/>
+
 # The Hunter: Agentic Phishing Defense System
 
-**A fully autonomous, multi-agent AI pipeline that mimics a human Security Operations Center (SOC) to triage, classify, and verdict incoming emails for phishing threats in real time.**
+**A fully autonomous, multi-agent AI pipeline that mimics a human Security Operations Center (SOC)**  
+**to triage, classify, and verdict incoming emails for phishing threats in real time.**
+
+**Agent Option: Option B — Multi-Agent System (CrewAI · Three-Agent Sequential Pipeline)**
 
 ---
 
@@ -12,7 +19,7 @@
 ![scikit-learn](https://img.shields.io/badge/scikit--learn-1.5.2-F7931E?logo=scikit-learn&logoColor=white)
 ![License](https://img.shields.io/badge/license-MIT-green.svg)
 ![ITAI2376](https://img.shields.io/badge/ITAI%202376-Final%20Project-blueviolet)
-![Multi-Agent](https://img.shields.io/badge/Agent%20Type-Multi--Agent%20System-crimson)
+![Multi-Agent](https://img.shields.io/badge/Agent%20Option-B%20%7C%20Multi--Agent%20System-crimson)
 ![Project Tier](https://img.shields.io/badge/Project%20Tier-Advanced%20%7C%20Deep%20Learning%20%2B%20Agentic%20AI-gold)
 
 ---
@@ -416,36 +423,86 @@ All 4 emails processed successfully.
 ## Repository Structure
 
 ```text
-The Hunter Repository
- ┣ app/
- ┃ ┗ hunter_gradio_app.py           # Main Gradio web dashboard + CrewAI trigger
- ┣ data/                            # Sample data files (full dataset downloaded at runtime)
- ┣ docs/
- ┃ ┣ Final/
- ┃ ┃ ┗ final_project_writeup.md     # Final project writeup: architecture & evaluation
- ┃ ┗ Midterm/
- ┃   ┣ MD_Blueprint_Tu_Chloe_Team_1_ITAI2376.pdf  # Original Midterm blueprint
- ┃   ┗ The Hunter Architecture Diagram.png         # Architecture diagram (embedded above)
- ┣ models/
- ┃ ┣ bilstm_model.keras             # Trained BiLSTM neural network (65% ensemble weight)
- ┃ ┣ logreg_model.pkl               # Trained Logistic Regression feature model
- ┃ ┣ scaler.pkl                     # StandardScaler for feature normalization
- ┃ ┣ threshold.pkl                  # Calibrated precision-recall threshold (approx. 0.377)
- ┃ ┗ tokenizer.pkl                  # Keras tokenizer for text-to-sequence conversion
- ┣ notebooks/
- ┃ ┣ Demo_The_Hunter_App.ipynb      # Guided Colab demo notebook
- ┃ ┗ The Hunter-Automated Email Phishing Defense Detection System.ipynb
- ┃                                  # Full training notebook: EDA, model training, pipeline
- ┣ results/
- ┃ ┣ demo_visualizations/           # Dashboard screenshots & demo evidence
- ┃ ┗ notebook_visualizations/       # Training charts, confusion matrices, pipeline logs
- ┣ .env.example                     # API key template (copy to .env, add Groq key)
- ┣ .gitignore                       # Excludes .env, __pycache__, models cache, etc.
- ┣ LICENSE                          # MIT License
- ┣ QUICKSTART.md                    # Full step-by-step launch guide (local + Colab)
- ┣ README.md                        # You are here
- ┣ REFLECTION.md                    # Team reflection: what worked, what did not, next steps
- ┗ requirements.txt                 # All Python dependencies with pinned versions
+The Hunter/
+├── app/
+│   ├── hunter_gradio_app.py                                    # Main Gradio web dashboard + CrewAI pipeline trigger
+│   └── README.md                                               # app/ folder documentation
+│
+├── data/
+│   ├── threat_memory.db                                        # SQLite threat memory database (auto-created at runtime)
+│   └── README.md                                               # data/ folder documentation
+│
+├── docs/
+│   ├── FN_Demo_Chloe_Tu_Team_1_ITAI2376.mp4                   # Full 5-minute demo video (~126 MB)
+│   ├── Final/
+│   │   └── final_project_writeup.md                           # Final project technical writeup
+│   ├── Midterm/
+│   │   ├── MD_Blueprint_Tu_Chloe_Team_1_ITAI2376.md           # Midterm blueprint (Markdown, GitHub-readable)
+│   │   ├── MD_Blueprint_Tu_Chloe_Team_1_ITAI2376.pdf          # Midterm blueprint (PDF, submitted to Canvas)
+│   │   └── The Hunter Architecture Diagram.png                # Full system architecture diagram
+│   └── README.md                                               # docs/ folder documentation
+│
+├── models/
+│   ├── bilstm_model.keras                                      # Trained BiLSTM neural network (~34 MB, 65% ensemble weight)
+│   ├── logreg_model.pkl                                        # Trained Logistic Regression feature model
+│   ├── scaler.pkl                                              # StandardScaler for feature normalization
+│   ├── threshold.pkl                                           # Calibrated precision-recall threshold (~0.377)
+│   ├── tokenizer.pkl                                           # Keras tokenizer for text-to-sequence conversion (~30 MB)
+│   └── README.md                                               # models/ folder documentation
+│
+├── notebooks/
+│   ├── Demo_The_Hunter_App.ipynb                               # Guided Colab demo notebook (no training required)
+│   ├── The Hunter-Automated Email Phishing Defense
+│   │       Detection System.ipynb                              # Full training notebook: EDA → BiLSTM → Ensemble → CrewAI → Demo
+│   └── README.md                                               # notebooks/ folder documentation
+│
+├── results/
+│   ├── demo_visualizations/                                    # 22 screenshots from live Gradio dashboard runs
+│   │   ├── The_Hunter_icon_image.png                           # Project icon / logo
+│   │   ├── The_Hunter_Interface.png                            # Dashboard home screen (hero image)
+│   │   ├── The_Hunter_interface_2.png                          # Dashboard alternate view
+│   │   ├── The_Hunter_Clear_Phishing_Verdict_Quarantine.png    # Clear phishing — QUARANTINE verdict tab
+│   │   ├── The_Hunter_Clear_Phishing_Pipeline_Analysis.png     # Clear phishing — Pipeline Analysis tab
+│   │   ├── The_Hunter_Clear_Phishing_Agent_Reasoning_Trace.png # Clear phishing — Agent Reasoning Trace tab
+│   │   ├── The_Hunter_Clear_Phishing_Threat_Memory.png         # Clear phishing — Threat Memory tab
+│   │   ├── The_Hunter_Clean_Legitimate_Vedict.png              # Legitimate email — ALLOW verdict tab
+│   │   ├── The_Hunter_Clean_Legitimate_Pipeline_analysis.png   # Legitimate email — Pipeline Analysis tab
+│   │   ├── The_Hunter_Clean_Legitimate_Agent_Reasoning_Trace.png # Legitimate email — Agent Reasoning Trace tab
+│   │   ├── The_Hunter_Clean_Legitimate_All_Threat_History.png  # Legitimate email — All Threat History tab
+│   │   ├── The_Hunter_Clean_Legitimate_Threat_Memory.png       # Legitimate email — Threat Memory tab
+│   │   ├── The_Hunter_Borderline_Ambiguous_Verdict_Quarantine.png # Borderline — verdict tab
+│   │   ├── The_Hunter_Borderline_Ambiguous_Pipeline_analysis.png  # Borderline — Pipeline Analysis tab
+│   │   ├── The_Hunter_Borderline_Ambiguous_Agent_Reasoning_Trace.png # Borderline — Agent Reasoning Trace tab
+│   │   ├── The_Hunter_Borderline_Ambiguous_All_Threat_History.png    # Borderline — All Threat History tab
+│   │   ├── The_Hunter_Borderline_Ambiguous_Threat_Memory.png   # Borderline — Threat Memory tab
+│   │   ├── The_Hunter_Repeat_Sender_Verdict.png                # Repeat sender — QUARANTINE verdict tab
+│   │   ├── The_Hunter_Repeat_Sender_Pipeline_Analysis.png      # Repeat sender — Pipeline Analysis tab
+│   │   ├── The_Hunter_Repeat_Sender_Agent_Reasoning_Trace.png  # Repeat sender — Agent Reasoning Trace tab
+│   │   ├── The_Hunter_Repeat_Sender_All_Threat_History.png     # Repeat sender — All Threat History tab
+│   │   └── The_Hunter_Repeat_Sender_Threat_Memory.png          # Repeat sender — Threat Memory tab
+│   │
+│   ├── notebook_visualizations/                                # 9 training charts + 2 log files
+│   │   ├── BiLSTM_Training_History.png                         # Training accuracy & loss curves (4-panel)
+│   │   ├── Class_Distribution-Alam_Phishing_Dataset.png        # Class imbalance bar chart
+│   │   ├── Confusion_Matrix-Ensemble.png                       # Normalized ensemble confusion matrix
+│   │   ├── Ensemble_Risk_Score_Distribution_by_True_Label.png  # Risk score histogram by true label
+│   │   ├── Feature_Correlation_Matrix.png                      # Pearson correlation heatmap (5 features)
+│   │   ├── Model_Performance.png                               # BiLSTM vs LR vs Ensemble bar chart
+│   │   ├── Precision-Recall_Curve-Ensemble.png                 # PR curve with optimal threshold marked
+│   │   ├── Text_Length_Distribution_by_Class.png               # Email length histogram by class
+│   │   ├── Top_10_Features-Cratchley_RF.png                    # Top 10 Random Forest feature importances
+│   │   ├── Pipeline_Execution.txt                              # Full 4-email pipeline terminal log (~105 KB)
+│   │   └── The_Hunter_crewai_Traces.txt                        # Curated CrewAI Crew Completion trace (~8 KB)
+│   │
+│   └── README.md                                               # results/ folder documentation
+│
+├── .env.example                                                # API key template (copy to .env, add your Groq key)
+├── .gitignore                                                  # Excludes .env, __pycache__, large model caches
+├── LICENSE                                                     # MIT License
+├── QUICKSTART.md                                               # Step-by-step launch guide (local + Colab)
+├── README.md                                                   # You are here — full project documentation
+├── REFLECTION.md                                               # Team reflection: what worked, limitations, next steps
+└── requirements.txt                                            # All Python dependencies with pinned versions
 ```
 
 ---
@@ -608,16 +665,27 @@ https://secure-login-verify.com/auth — Security Team
 
 ## Demo Video
 
-> **The full 5-minute demo video is included in this repository:**
+> **The demo video file (~126 MB) is too large to preview directly on GitHub.**
+> **Watch the full demo on Google Drive:**
 
-[`docs/FN_Demo_Chloe_Tu_Team_1_ITAI2376.mp4`](docs/FN_Demo_Chloe_Tu_Team_1_ITAI2376.mp4)
+### [Watch Demo Video on Google Drive](https://drive.google.com/file/d/161p0kqwoJIKhUynKDgCN5GdeUNTUhVjh/view?usp=sharing)
 
-The demo covers:
-1. Launching the Gradio dashboard
-2. Submitting a **clear phishing email** — QUARANTINE verdict
-3. Submitting a **clean legitimate email** — ALLOW verdict
-4. Submitting an **ambiguous borderline email** — deep analysis pathway
-5. Demonstrating the **repeat offender escalation** via Threat Memory
+> *Click the link above to stream the video directly in your browser — no download required.*
+
+---
+
+**What the demo covers (5-minute walkthrough):**
+
+| Step | Scenario | Pipeline Verdict |
+|------|----------|-----------------|
+| 1 | Submitting a **clear phishing email** | `QUARANTINE` — Agent 2 scores 0.9792, Agent 3 blocks delivery |
+| 2 | Submitting a **clean legitimate email** | `ALLOW` — Risk score 0.0, no threat detected |
+| 3 | Submitting an **ambiguous borderline email** | Deep analysis pathway invoked by Agent 2 |
+| 4 | Demonstrating **repeat offender escalation** | `BLOCK` — SQLite Threat Memory detects prior offender, auto-escalates |
+
+The video includes narration explaining each agent's role, the BiLSTM ensemble risk score, and how the **4-tier defense policy** (ALLOW / LOG / QUARANTINE / BLOCK) is applied in real time.
+
+> **Local file:** The `.mp4` file is also included in the repository at [`docs/FN_Demo_Chloe_Tu_Team_1_ITAI2376.mp4`](docs/FN_Demo_Chloe_Tu_Team_1_ITAI2376.mp4) for offline viewing after cloning.
 
 ---
 

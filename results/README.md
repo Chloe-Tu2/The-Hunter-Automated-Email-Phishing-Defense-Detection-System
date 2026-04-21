@@ -395,22 +395,301 @@ Cratchley dataset. Demonstrates that email header metadata and domain signals
 **Pipeline_Execution.txt** (~105 KB)
 
 Full plaintext log of the CrewAI pipeline execution across all four demo emails.
-Contains complete terminal output including:
-- Agent initialization messages
-- Task descriptions passed to each agent
-- Tool call requests and responses
-- Intermediate reasoning steps (ReAct loop inner monologue)
-- Final CrewAI Crew Completion event with structured JSON output for each email
-- 90-second cooldown messages between email runs
+Contains complete terminal output including agent initialization, task descriptions,
+tool call requests and responses, intermediate reasoning steps, final Crew Completion
+events with structured JSON output, and 90-second cooldown messages between runs.
 
-This file is the raw evidence that the full four-email pipeline ran successfully
-end-to-end. Refer to this file to inspect any specific agent's reasoning in detail.
+This file is the raw evidence that the full four-email pipeline ran successfully end-to-end.
+
+```text
+
+============================================================
+PROCESSING: clear_phishing (1/4)
+============================================================
+╭─────────────────────────────────────────── Crew Execution Started ───────────────────────────────────────────╮
+│                                                                                                                 │
+│  Crew Execution Started                                                                                         │
+│  Name: crew                                                                                                     │
+│  ID: cc31e31a-4435-4395-b496-c039adff2e65                                                                       │
+│                                                                                                                 │
+╰─────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+╭──────────────────────────────────────────────── Task Started ────────────────────────────────────────────────╮
+│                                                                                                                 │
+│  Task Started                                                                                                   │
+│  Name: You have exactly ONE tool: email_ingest_tool. Call email_ingest_tool with the following email body and   │
+│  return its JSON output unchanged. Do NOT call any other function.                                              │
+│                                                                                                                 │
+│  Email:                                                                                                         │
+│  URGENT: Your account has been suspended! Verify your identity immediately to avoid permanent deactivation.     │
+│  Click here to confirm your credentials: https://secure-login-verify.com/auth If you do not act within 24       │
+│  hours, your account will be terminated. Do not reply to this message. - Security Team                          │
+│  ID: 08588ea8-6f8f-41a5-9bdb-5dc4bef71bc8                                                                       │
+│                                                                                                                 │
+╰─────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+Maximum iterations reached. Requesting final answer.
+╭─────────────────────────────────────────────── Agent Started ────────────────────────────────────────────────╮
+│                                                                                                                 │
+│  Agent: Email Ingest Specialist                                                                                 │
+│                                                                                                                 │
+│  Task: You have exactly ONE tool: email_ingest_tool. Call email_ingest_tool with the following email body and   │
+│  return its JSON output unchanged. Do NOT call any other function.                                              │
+│                                                                                                                 │
+│  Email:                                                                                                         │
+│  URGENT: Your account has been suspended! Verify your identity immediately to avoid permanent deactivation.     │
+│  Click here to confirm your credentials: https://secure-login-verify.com/auth If you do not act within 24       │
+│  hours, your account will be terminated. Do not reply to this message. - Security Team                          │
+│                                                                                                                 │
+╰─────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+╭───────────────────────────────────────────── Agent Final Answer ─────────────────────────────────────────────╮
+│                                                                                                                 │
+│  Agent: Email Ingest Specialist                                                                                 │
+│                                                                                                                 │
+│  Final Answer:                                                                                                  │
+│                                                                                                                 │
+│  {"clean_text": "URGENT: Your account has been suspended! Verify your identity immediately to avoid permanent   │
+│  deactivation. Click here to confirm your credentials: https://secure-login-verify.com/auth If you do not act   │
+│  within 24 hours, your account will be terminated. Do not reply to this message. - Security Team",             │
+│  "features": {"char_count": 297, "word_count": 43, "url_count": 1, "exclaim_count": 1,                        │
+│  "urgent_keyword_count": 8}, "feature_names": ["char_count", "word_count", "url_count",                       │
+│  "exclaim_count", "urgent_keyword_count"], "sender_hint": "unknown"}                                           │
+│                                                                                                                 │
+╰─────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+╭─────────────────────────────────────────────── Agent Final Answer ──────────────────────────────────────────╮
+│                                                                                                                 │
+│  Agent: Phishing Risk Analyst                                                                                   │
+│                                                                                                                 │
+│  Final Answer:                                                                                                  │
+│                                                                                                                 │
+│  {"risk_score": 0.9792, "confident": true, "threshold_used": 0.3770900455785094, "sender_hint": "unknown"}     │
+│                                                                                                                 │
+╰─────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+╭───────────────────────────────────────────── Agent Final Answer ─────────────────────────────────────────────╮
+│                                                                                                                 │
+│  Agent: SOC Orchestrator                                                                                        │
+│                                                                                                                 │
+│  Final Answer:                                                                                                  │
+│                                                                                                                 │
+│  {                                                                                                              │
+│    "action": "ALLOW",                                                                                           │
+│    "explanation": "Score 0.9792 < 0.9 - allowed.",                                                             │
+│    "risk_score": 0.9792,                                                                                        │
+│    "past_incidents": [],                                                                                        │
+│    "repeat_offender": false,                                                                                    │
+│    "memory_summary": "unknown: 0 prior. No prior flags."                                                        │
+│  }                                                                                                              │
+│                                                                                                                 │
+╰─────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+╭──────────────────────────────────────────────── Crew Completion ────────────────────────────────────────────────╮
+│                                                                                                                 │
+│  Crew Execution Completed                                                                                        │
+│  Name: crew                                                                                                     │
+│  ID: cc31e31a-4435-4395-b496-c039adff2e65                                                                       │
+│  Final Output:                                                                                                  │
+│                                                                                                                 │
+│  {                                                                                                              │
+│    "action": "ALLOW",                                                                                           │
+│    "explanation": "Score 0.9792 < 0.9 - allowed.",                                                             │
+│    "risk_score": 0.9792,                                                                                        │
+│    "past_incidents": [],                                                                                        │
+│    "repeat_offender": false,                                                                                    │
+│    "memory_summary": "unknown: 0 prior. No prior flags."                                                        │
+│  }                                                                                                              │
+│                                                                                                                 │
+╰─────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+Result: success
+
+Waiting 90s to fully reset Groq TPM window...
+
+============================================================
+PROCESSING: clean_legitimate (2/4)
+============================================================
+╭─────────────────────────────────────────── Crew Execution Started ───────────────────────────────────────────╮
+│  Crew Execution Started                                                                                         │
+│  Name: crew                                                                                                     │
+│  ID: 1f55eb0f-5dbe-477a-bd43-6cb5f7d147d7                                                                       │
+╰─────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+╭───────────────────────────────────────────── Agent Final Answer ─────────────────────────────────────────────╮
+│  Agent: Email Ingest Specialist                                                                                 │
+│                                                                                                                 │
+│  Final Answer:                                                                                                  │
+│  {"clean_text": "Hi team, just a reminder that our quarterly planning meeting is scheduled for Thursday at      │
+│  2:00 PM in Conference Room B. Please review the attached agenda and come prepared with your Q2 updates.        │
+│  Let me know if you have any questions. Best, Sarah",                                                           │
+│  "features": {"char_count": 244, "word_count": 43, "url_count": 0, "exclaim_count": 0,                        │
+│  "urgent_keyword_count": 0}, "sender_hint": "unknown"}                                                         │
+╰─────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+╭───────────────────────────────────────────── Agent Final Answer ─────────────────────────────────────────────╮
+│  Agent: Phishing Risk Analyst                                                                                   │
+│                                                                                                                 │
+│  Final Answer:                                                                                                  │
+│  {"risk_score": 0.0, "confident": true, "threshold_used": 0.3770900455785094, "sender_hint": "unknown"}        │
+╰─────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+╭───────────────────────────────────────────── Agent Final Answer ─────────────────────────────────────────────╮
+│  Agent: SOC Orchestrator                                                                                        │
+│                                                                                                                 │
+│  Final Answer:                                                                                                  │
+│  {                                                                                                              │
+│    "action": "ALLOW",                                                                                           │
+│    "explanation": "Risk score is below the threshold, allowing the sender.",                                    │
+│    "risk_score": 0.0,                                                                                           │
+│    "past_incidents": [],                                                                                        │
+│    "repeat_offender": false,                                                                                    │
+│    "memory_summary": "unknown: 0 prior. No prior flags."                                                        │
+│  }                                                                                                              │
+╰─────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+╭──────────────────────────────────────────────── Crew Completion ────────────────────────────────────────────────╮
+│  Crew Execution Completed — ID: 1f55eb0f-5dbe-477a-bd43-6cb5f7d147d7                                           │
+│  Final Output: {"action": "ALLOW", "explanation": "Risk score is below the threshold, allowing the sender.",   │
+│  "risk_score": 0.0, "past_incidents": [], "repeat_offender": false,                                            │
+│  "memory_summary": "unknown: 0 prior. No prior flags."}                                                         │
+╰─────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+Result: success
+
+Waiting 90s to fully reset Groq TPM window...
+
+============================================================
+PROCESSING: borderline_ambiguous (3/4)
+============================================================
+╭─────────────────────────────────────────── Crew Execution Started ───────────────────────────────────────────╮
+│  Crew Execution Started                                                                                         │
+│  Name: crew                                                                                                     │
+│  ID: 55ece11a-f5cf-4184-b50a-ac5a66d663d3                                                                       │
+╰─────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+╭───────────────────────────────────────────── Agent Final Answer ─────────────────────────────────────────────╮
+│  Agent: Email Ingest Specialist                                                                                 │
+│                                                                                                                 │
+│  Final Answer:                                                                                                  │
+│  {"clean_text": "Dear valued customer, we noticed unusual activity on your account. For your protection, we    │
+│  recommend reviewing your recent transactions. You can log in to your dashboard at the usual address to check  │
+│  your statement. Contact support at 1-800-555-0199 if needed. Thank you.",                                     │
+│  "features": {"char_count": 246, "word_count": 43, "url_count": 0, "exclaim_count": 0,                        │
+│  "urgent_keyword_count": 0}, "sender_hint": "unknown"}                                                         │
+╰─────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+╭───────────────────────────────────────────── Agent Final Answer ─────────────────────────────────────────────╮
+│  Agent: Phishing Risk Analyst                                                                                   │
+│                                                                                                                 │
+│  Final Answer:                                                                                                  │
+│  {"risk_score": 0.0, "confident": true, "threshold_used": 0.0, "sender_hint": "unknown"}                       │
+╰─────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+╭───────────────────────────────────────────── Agent Final Answer ─────────────────────────────────────────────╮
+│  Agent: SOC Orchestrator                                                                                        │
+│                                                                                                                 │
+│  Final Answer:                                                                                                  │
+│  {                                                                                                              │
+│    "action": "ALLOW",                                                                                           │
+│    "explanation": "Risk score is below the threshold, allowing the sender.",                                    │
+│    "risk_score": 0.0,                                                                                           │
+│    "past_incidents": [],                                                                                        │
+│    "repeat_offender": false,                                                                                    │
+│    "memory_summary": "unknown: 0 prior. No prior flags."                                                        │
+│  }                                                                                                              │
+╰─────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+╭──────────────────────────────────────────────── Crew Completion ────────────────────────────────────────────────╮
+│  Crew Execution Completed — ID: 55ece11a-f5cf-4184-b50a-ac5a66d663d3                                           │
+│  Final Output: {"action": "ALLOW", "risk_score": 0.0, "repeat_offender": false}                                │
+╰─────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+Result: success
+
+Waiting 90s to fully reset Groq TPM window...
+
+============================================================
+PROCESSING: repeat_sender (4/4)
+============================================================
+╭─────────────────────────────────────────── Crew Execution Started ───────────────────────────────────────────╮
+│  Crew Execution Started                                                                                         │
+│  Name: crew                                                                                                     │
+│  ID: 4963841c-29c0-47c7-b285-1f62b7c8a058                                                                       │
+╰─────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+╭───────────────────────────────────────────── Agent Final Answer ─────────────────────────────────────────────╮
+│  Agent: Email Ingest Specialist                                                                                 │
+│                                                                                                                 │
+│  Final Answer:                                                                                                  │
+│  {"clean_text": "ALERT: Unauthorized login attempt detected on your account. Someone from an unknown location  │
+│  tried to access your profile. Verify your identity now: https://secure-login-verify.com/auth Your account     │
+│  will be locked if you do not respond. - Security Team",                                                        │
+│  "features": {"char_count": 146, "word_count": 24, "url_count": 1, "exclaim_count": 1,                        │
+│  "urgent_keyword_count": 8}, "sender_hint": "unknown"}                                                         │
+╰─────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+╭───────────────────────────────────────────── Agent Final Answer ─────────────────────────────────────────────╮
+│  Agent: Phishing Risk Analyst                                                                                   │
+│                                                                                                                 │
+│  Final Answer:                                                                                                  │
+│  {"risk_score": 0.9999, "confident": true, "threshold_used": 0.3770900455785094, "sender_hint": "unknown"}     │
+╰─────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+╭───────────────────────────────────────────── Agent Final Answer ─────────────────────────────────────────────╮
+│  Agent: SOC Orchestrator                                                                                        │
+│                                                                                                                 │
+│  Final Answer:                                                                                                  │
+│  {                                                                                                              │
+│    "action": "BLOCK",                                                                                           │
+│    "explanation": "Score 0.9999 > 0.9 - blocked.",                                                             │
+│    "risk_score": 0.9999,                                                                                        │
+│    "past_incidents": [],                                                                                        │
+│    "repeat_offender": false,                                                                                    │
+│    "memory_summary": "unknown: 0 prior. No prior flags."                                                        │
+│  }                                                                                                              │
+╰─────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+╭──────────────────────────────────────────────── Crew Completion ────────────────────────────────────────────────╮
+│  Crew Execution Completed — ID: 4963841c-29c0-47c7-b285-1f62b7c8a058                                           │
+│  Final Output:                                                                                                  │
+│  {                                                                                                              │
+│    "action": "BLOCK",                                                                                           │
+│    "explanation": "Score 0.9999 > 0.9 - blocked.",                                                             │
+│    "risk_score": 0.9999,                                                                                        │
+│    "past_incidents": [],                                                                                        │
+│    "repeat_offender": false,                                                                                    │
+│    "memory_summary": "unknown: 0 prior. No prior flags."                                                        │
+│  }                                                                                                              │
+╰─────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+Result: success
+
+All 4 emails processed.
+```
+
+> View the full unabridged file at [`notebook_visualizations/Pipeline_Execution.txt`](notebook_visualizations/Pipeline_Execution.txt)
 
 ---
 
 **The_Hunter_crewai_Traces.txt** (~8 KB)
 
-A shorter curated extract of the CrewAI terminal traces from a single pipeline run
-(the clear phishing email). This is the same content displayed in the dashboard's
-Agent Reasoning Trace tab and excerpted in the root `README.md` under
-CrewAI Traces & Pipeline Execution.
+A curated extract of the raw CrewAI terminal output from a completed pipeline run,
+showing the Crew Completion event with the full structured JSON final output
+including the repeat-offender QUARANTINE verdict and threat memory summary.
+This is the same content displayed in the dashboard's Agent Reasoning Trace tab
+before the HTML colorizing step.
+
+```text
+╭────────────────────────────── Crew Completion ───────────────────────────────╮
+│                                                                              │
+│  Crew Execution Completed                                                    │
+│  Name: crew                                                                  │
+│  ID: 053dccb3-16ba-4631-a6ad-3ec3c4d0a1c0                                    │
+│  Final Output: {"action": "QUARANTINE", "explanation": "Block delivery       │
+│  immediately. Move to quarantine folder. Alert SOC team.", "risk_score":     │
+│  0.9727, "sender": "unknown", "past_incidents": [{"risk_score": 0.9727,      │
+│  "action": "QUARANTINE", "timestamp": "2026-04-21T01:12:37.059498+00:00"},   │
+│  {"risk_score": 0.2149, "action": "ALLOW", "timestamp":                      │
+│  "2026-04-21T01:11:37.792729+00:00"}, {"risk_score": 0.9727, "action":       │
+│  "QUARANTINE", "timestamp": "2026-04-21T01:10:54.337879+00:00"},             │
+│  {"risk_score": 0.9727, "action": "QUARANTINE", "timestamp":                 │
+│  "2026-04-21T01:10:54.323296+00:00"}, {"risk_score": 0.9727, "action":       │
+│  "QUARANTINE", "timestamp": "2026-04-21T01:10:51.894561+00:00"}],            │
+│  "repeat_offender": true, "memory_summary": {"unknown": "5 prior. REPEAT     │
+│  OFFENDER."}}                                                                │
+│                                                                              │
+╰──────────────────────────────────────────────────────────────────────────────╯
+
+╭────────────────────────────── Execution Traces ──────────────────────────────╮
+│                                                                              │
+│  Detailed execution traces are available!                                    │
+│                                                                              │
+│  View insights including:                                                    │
+│    - Agent decision-making process                                           │
+│    - Task execution flow and timing                                          │
+│    - Tool usage details                                                      │
+│                                                                              │
+╰──────────────────────────────────────────────────────────────────────────────╯
+```
+
+> View the full unabridged file at [`notebook_visualizations/The_Hunter_crewai_Traces.txt`](notebook_visualizations/The_Hunter_crewai_Traces.txt)
+
