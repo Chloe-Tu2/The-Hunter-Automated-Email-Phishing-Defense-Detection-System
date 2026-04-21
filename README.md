@@ -1,7 +1,3 @@
-<div align="center">
-
-<img src="results/demo_visualizations/The_Hunter_icon_image.png" alt="The Hunter Icon" width="200"/>
-
 # The Hunter: Agentic Phishing Defense System
 
 **A fully autonomous, multi-agent AI pipeline that mimics a human Security Operations Center (SOC) to triage, classify, and verdict incoming emails for phishing threats in real time.**
