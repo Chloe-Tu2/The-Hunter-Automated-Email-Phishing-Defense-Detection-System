@@ -1,7 +1,8 @@
 # results/ — Visualizations and Output Evidence
 
 This folder holds all visual output produced during training, evaluation, and live
-dashboard demonstration. It is organized into two subfolders based on source.
+dashboard demonstration. It is organized into two subfolders based on source, plus
+two pipeline log files stored directly in this folder.
 
 ---
 
@@ -9,11 +10,14 @@ dashboard demonstration. It is organized into two subfolders based on source.
 
 ```
 results/
-├── demo_visualizations/                                         # 23 files — live dashboard screenshots
+├── Pipeline_Execution.txt                                       # Full 4-email pipeline terminal log (~105 KB)
+├── The_Hunter_crewai_Traces.txt                                 # Curated CrewAI Crew Completion trace (~8 KB)
+├── README.md                                                    # This file
+│
+├── demo_visualizations/                                         # 22 files — live dashboard screenshots
 │   ├── The_Hunter_icon_image.png
 │   ├── The_Hunter_Interface.png
 │   ├── The_Hunter_interface_2.png
-│   ├── The_Hunter_crewai_Traces.txt
 │   │
 │   ├── The_Hunter_Clear_Phishing_Verdict_Quarantine.png
 │   ├── The_Hunter_Clear_Phishing_Pipeline_Analysis.png
@@ -38,17 +42,15 @@ results/
 │   ├── The_Hunter_Repeat_Sender_All_Threat_History.png
 │   └── The_Hunter_Repeat_Sender_Threat_Memory.png
 │
-└── notebook_visualizations/                                     # 11 files — training charts and logs
+└── notebook_visualizations/                                     # 9 files — training charts
     ├── BiLSTM_Training_History.png
     ├── Class_Distribution-Alam_Phishing_Dataset.png
     ├── Confusion_Matrix-Ensemble.png
     ├── Ensemble_Risk_Score_Distribution_by_True_Label.png
     ├── Feature_Correlation_Matrix.png
     ├── Model_Performance.png
-    ├── Pipeline_Execution.txt
     ├── Precision-Recall_Curve-Ensemble.png
     ├── Text_Length_Distribution_by_Class.png
-    ├── The_Hunter_crewai_Traces.txt
     └── Top_10_Features-Cratchley_RF.png
 ```
 
@@ -87,16 +89,6 @@ Agent Reasoning Trace). Used as the hero image in the `README.md`.
 An alternate angle of the dashboard interface showing the System Status panel
 (model load confirmation, API key status, CrewAI readiness) and the All Threat
 History tab with a populated verdict table.
-
----
-
-**The_Hunter_crewai_Traces.txt** (~8 KB)
-
-A plain-text capture of the raw CrewAI terminal output from a full pipeline run.
-Contains the complete ReAct reasoning loop for all three agents: tool calls,
-tool outputs, intermediate thoughts, and final answers. This is the same content
-displayed in the dashboard's Agent Reasoning Trace tab, captured before the
-HTML colorizing step.
 
 ---
 
@@ -390,7 +382,11 @@ Cratchley dataset. Demonstrates that email header metadata and domain signals
 
 ---
 
-### Log Files
+## Pipeline Log Files
+
+> These two files live directly in `results/` — not inside any subfolder.
+
+---
 
 **Pipeline_Execution.txt** (~105 KB)
 
@@ -646,7 +642,7 @@ Result: success
 All 4 emails processed.
 ```
 
-> View the full unabridged file at [`notebook_visualizations/Pipeline_Execution.txt`](notebook_visualizations/Pipeline_Execution.txt)
+> View the full unabridged file at [`Pipeline_Execution.txt`](Pipeline_Execution.txt)
 
 ---
 
@@ -691,5 +687,5 @@ before the HTML colorizing step.
 ╰──────────────────────────────────────────────────────────────────────────────╯
 ```
 
-> View the full unabridged file at [`notebook_visualizations/The_Hunter_crewai_Traces.txt`](notebook_visualizations/The_Hunter_crewai_Traces.txt)
+> View the full unabridged file at [`The_Hunter_crewai_Traces.txt`](The_Hunter_crewai_Traces.txt)
 

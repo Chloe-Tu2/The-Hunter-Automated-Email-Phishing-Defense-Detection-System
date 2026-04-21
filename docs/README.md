@@ -1,7 +1,7 @@
 # docs/ — Project Documentation
 
 This folder contains all project documentation: the final project writeup, the original
-Midterm blueprint (both PDF and Markdown), the architecture diagram, and the demo video.
+Midterm blueprint (both PDF and Markdown), and the architecture diagram.
 
 ---
 
@@ -9,32 +9,33 @@ Midterm blueprint (both PDF and Markdown), the architecture diagram, and the dem
 
 ```
 docs/
-├── FN_Demo_Chloe_Tu_Team_1_ITAI2376.mp4    # 5-minute demo video (~126 MB)
 ├── Final/
 │   └── final_project_writeup.md            # Final project technical writeup
-└── Midterm/
-    ├── MD_Blueprint_Tu_Chloe_Team_1_ITAI2376.md    # Midterm blueprint (Markdown)
-    ├── MD_Blueprint_Tu_Chloe_Team_1_ITAI2376.pdf   # Midterm blueprint (PDF, submitted)
-    └── The Hunter Architecture Diagram.png          # System architecture diagram
+├── Midterm/
+│   ├── MD_Blueprint_Tu_Chloe_Team_1_ITAI2376.md    # Midterm blueprint (Markdown)
+│   ├── MD_Blueprint_Tu_Chloe_Team_1_ITAI2376.pdf   # Midterm blueprint (PDF, submitted)
+│   └── The Hunter Architecture Diagram.png          # System architecture diagram
+└── README.md                                        # This file
 ```
 
 ---
 
 ## File Details
 
+## Demo Video (External — Not in GitHub)
+
 ### FN_Demo_Chloe_Tu_Team_1_ITAI2376.mp4
 
 | Property | Value |
 |----------|-------|
-| **Size** | ~126 MB |
 | **Duration** | ~5 minutes |
 | **Format** | MP4 video |
-| **In GitHub** | Included locally — **too large to preview on GitHub** |
+| **In GitHub** | **Not included** — file is ~126 MB, too large for GitHub |
 
-> **The video file is ~126 MB and cannot be previewed directly on GitHub.**
-> **Use the Google Drive link below to stream it in your browser:**
+> **The demo video is not stored in this repository.**  
+> **Watch the full demo on Google Drive:**
 
-### [Watch Demo Video on Google Drive](https://drive.google.com/file/d/161p0kqwoJIKhUynKDgCN5GdeUNTUhVjh/view?usp=sharing)
+### [▶ Watch Demo Video on Google Drive](https://drive.google.com/file/d/161p0kqwoJIKhUynKDgCN5GdeUNTUhVjh/view?usp=sharing)
 
 > *No download required — click the link above to stream the demo directly in Google Drive.*
 
@@ -54,8 +55,6 @@ docs/
 - How the **BiLSTM + Logistic Regression ensemble** produces a phishing probability score (0.0–1.0)
 - How the **4-tier defense policy** (ALLOW / LOG / QUARANTINE / BLOCK) maps score ranges to actions
 - How **SQLite Threat Memory** enables persistent repeat-offender detection across sessions
-
-> **Local file:** The `.mp4` is stored at `docs/FN_Demo_Chloe_Tu_Team_1_ITAI2376.mp4` for offline viewing after cloning the repository.
 
 ---
 
@@ -132,4 +131,131 @@ The diagram was created for the Midterm blueprint and updated to reflect the fin
 implementation. It is the same diagram required by the ITAI 2376 assignment and
 embedded in the root-level `README.md`.
 
-![The Hunter Architecture Diagram](The%20Hunter%20Architecture%20Diagram.png)
+![The Hunter Architecture Diagram](Midterm/The%20Hunter%20Architecture%20Diagram.png)
+
+**Text Architecture Diagram — Annotated Agent Pipeline:**
+
+```
++===========================================================================+
+|      THE HUNTER - Automated Email Phishing Defense Detection System       |
+|           CrewAI  |  Three Autonomous Agents  |  Sequential Pipeline      |
++===========================================================================+
+|                                                                           |
+|  [ RAW EMAIL INPUT ]                                                      |
+|         |                                                                 |
+|         v                                                                 |
+|  +--------------------------------------------------+                    |
+|  |  AGENT 1: Email Ingest Specialist                |                    |
+|  |                                                  |                    |
+|  |  PERCEIVES:  Raw email body text                 |                    |
+|  |                                                  |                    |
+|  |  GOAL: Prepare a clean, structured               |                    |
+|  |  representation of this email that gives         |                    |
+|  |  the risk analyst everything needed to           |                    |
+|  |  make an accurate threat assessment.             |                    |
+|  |                                                  |                    |
+|  |  AVAILABLE TOOL:                                 |                    |
+|  |    email_ingest_tool                             |                    |
+|  |      - Strips HTML tags                          |                    |
+|  |      - Normalizes URLs to "url" token            |                    |
+|  |      - Extracts sender fingerprint               |                    |
+|  |      - Computes 5 phishing signal features:      |                    |
+|  |        char_count, word_count, url_count,        |                    |
+|  |        exclaim_count, urgent_keyword_count       |                    |
+|  |                                                  |                    |
+|  |  ACTS: Calls email_ingest_tool, verifies         |                    |
+|  |  output is complete and well-formed              |                    |
+|  |                                                  |                    |
+|  |  OUTPUT: JSON (clean_text, features,             |                    |
+|  |           feature_names, sender_hint)            |                    |
+|  +--------------------------------------------------+                    |
+|         |                                                                 |
+|         | structured email context passed forward                        |
+|         v                                                                 |
+|  +--------------------------------------------------+                    |
+|  |  AGENT 2: Phishing Risk Analyst                  |                    |
+|  |                                                  |                    |
+|  |  PERCEIVES:  Clean email text + 5 features       |                    |
+|  |              from Agent 1                        |                    |
+|  |                                                  |                    |
+|  |  GOAL: Determine whether this email is a         |                    |
+|  |  phishing attempt with enough confidence to      |                    |
+|  |  justify a security action. Use whatever         |                    |
+|  |  tools are necessary to be confident.            |                    |
+|  |                                                  |                    |
+|  |  AVAILABLE TOOLS:                                |                    |
+|  |    phishing_classifier_tool                      |                    |
+|  |      - BiLSTM text model        (65% weight)     |                    |
+|  |      - Logistic Regression      (35% weight)     |                    |
+|  |      - PR-curve optimal threshold                |                    |
+|  |      - Returns risk_score + confidence flag      |                    |
+|  |                                                  |                    |
+|  |    deep_analysis_tool                            |                    |
+|  |      - 6 regex phishing archetype patterns       |                    |
+|  |      - 4 structural red-flag checks              |                    |
+|  |      - Adjusts score by up to +0.34              |                    |
+|  |      - Returns adjusted_risk_score               |                    |
+|  |                                                  |                    |
+|  |  AGENT REASONS:                                  |                    |
+|  |    "Is my current confidence sufficient          |                    |
+|  |     to pass a score forward?                     |                    |
+|  |     Or do I need to investigate further?"        |                    |
+|  |         |                                        |                    |
+|  |         |-- Confident (score < 0.35 or > 0.75)  |                    |
+|  |         |   Agent passes score forward           |                    |
+|  |         |                                        |                    |
+|  |         |-- Uncertain (score 0.35 to 0.75)       |                    |
+|  |             Agent calls deep_analysis_tool       |                    |
+|  |             Agent re-evaluates, then passes      |                    |
+|  |             adjusted score forward               |                    |
+|  |                                                  |                    |
+|  |  OUTPUT: JSON (risk_score or adjusted_risk_score |                    |
+|  |           threshold_used, sender_hint)           |                    |
+|  +--------------------------------------------------+                    |
+|         |                                                                 |
+|         | risk assessment context passed forward                         |
+|         v                                                                 |
+|  +--------------------------------------------------+                    |
+|  |  AGENT 3: SOC Orchestrator                       |                    |
+|  |                                                  |                    |
+|  |  PERCEIVES:  Risk score from Agent 2 +           |                    |
+|  |              sender threat history from SQLite   |                    |
+|  |                                                  |                    |
+|  |  GOAL: Issue the security response that best     |                    |
+|  |  protects the organization, and maintain the     |                    |
+|  |  institutional threat memory so future agents    |                    |
+|  |  can reason about repeat offenders.              |                    |
+|  |                                                  |                    |
+|  |  AVAILABLE TOOLS:                                |                    |
+|  |    defense_policy_tool                           |                    |
+|  |      - 4-tier policy on calibrated threshold:    |                    |
+|  |        score >= 0.90  -->  QUARANTINE            |                    |
+|  |        score >= 0.70  -->  FLAG + WARNING        |                    |
+|  |        score >= t*    -->  ALLOW AND LOG         |                    |
+|  |        score <  t*    -->  ALLOW                 |                    |
+|  |        (t* = PR-curve optimal threshold)         |                    |
+|  |                                                  |                    |
+|  |    threat_memory_tool                            |                    |
+|  |      - Reads sender history from SQLite          |                    |
+|  |      - Writes new verdict to SQLite              |                    |
+|  |      - Returns past_incidents + repeat flag      |                    |
+|  |                                                  |                    |
+|  |  AGENT REASONS:                                  |                    |
+|  |    "What does the risk score say?                |                    |
+|  |     What does this sender's history say?         |                    |
+|  |     What is the right action for the org?"       |                    |
+|  |                                                  |                    |
+|  |  ACTS: Issues verdict, logs to memory,           |                    |
+|  |  flags repeat offenders in final output          |                    |
+|  |                                                  |                    |
+|  |  OUTPUT: JSON (action, explanation,              |                    |
+|  |           risk_score, past_incidents,            |                    |
+|  |           repeat_offender, memory_summary)       |                    |
+|  +--------------------------------------------------+                    |
+|         |                                                                 |
+|         v                                                                 |
+|  [ FINAL VERDICT + THREAT LOG ENTRY ]                                     |
+|                                                                           |
++===========================================================================+
+```
+

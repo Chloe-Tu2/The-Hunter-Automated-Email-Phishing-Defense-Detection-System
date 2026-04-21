@@ -41,7 +41,7 @@ by running this notebook.
 | 3 | **Environment Setup** | Colab/local detection; `pip install` cell for all dependencies; dependency verification cell that checks package versions; all standard imports; visualization configuration (seaborn dark theme, plotly renderer); secure credential loading from `.env` or Colab Secrets; logging configuration |
 | 4 | **Configuration** | Global constants (vocab size, sequence length, ensemble weights, tier thresholds); file paths for all artifacts; LiteLLM retry settings to handle Groq free-tier rate limits; CrewAI LLM configuration (`temperature=0`, `groq/llama-3.1-8b-instant`) |
 | 5 | **Architecture** | Narrative description of the three-agent pipeline and how the BiLSTM ensemble feeds into it |
-| 6 | **Data Acquisition - Alam Dataset** | Downloads 82,000+ email dataset from Kaggle via `kagglehub`; standardizes column names and binary labels (`1` = phishing, `0` = legitimate) |
+| 6 | **Data Acquisition - Alam Dataset** | Downloads 28,747-email dataset from Kaggle via `kagglehub`; standardizes column names and binary labels (`1` = phishing, `0` = legitimate) |
 | 7 | **Exploratory Data Analysis** | Visualization 1 — Class distribution bar chart; Visualization 2 — Text length distribution by class |
 | 8 | **Feature Engineering** | Defines `extract_features()` function (char count, word count, URL count, exclaim count, urgent keyword count); applies features to full dataset; Visualization 3 — Feature correlation heatmap |
 | 9 | **BiLSTM Text Model** | Tokenization (20,000 vocab, 300 max length); index-based 80/20 train/test split; builds two-layer stacked BiLSTM architecture with trainable embeddings and dropout; training loop with early stopping; Visualization 4 — Training history (accuracy + loss curves) |

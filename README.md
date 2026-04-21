@@ -1,8 +1,6 @@
 <div align="center">
 
-<img src="results/demo_visualizations/The_Hunter_icon_image.png" alt="The Hunter Icon" width="180"/>
-
-# The Hunter: Agentic Phishing Defense System
+# The Hunter: Automated Email Phishing Defense Detection System
 
 **A fully autonomous, multi-agent AI pipeline that mimics a human Security Operations Center (SOC)**  
 **to triage, classify, and verdict incoming emails for phishing threats in real time.**
@@ -34,6 +32,23 @@
 
 ---
 
+## Project Overview
+
+Phishing remains the most prevalent entry vector for data breaches worldwide, with over 298,000 victims reported to the FBI's IC3 in 2024 alone — and the true count is far higher. The core challenge is not awareness but volume and speed: enterprise inboxes receive hundreds of messages per hour, and modern phishing emails are carefully engineered to bypass both human judgment and simple rule-based filters.
+
+**The Hunter** addresses this gap by deploying a team of three autonomous AI agents orchestrated through CrewAI. Each agent owns a distinct domain of expertise — perception, risk assessment, and security response — mirroring how a real Security Operations Center (SOC) distributes responsibilities.
+
+The classification backbone is a stacked Bidirectional LSTM (BiLSTM) ensemble: a BiLSTM text model weighted at 65% is combined with a Logistic Regression feature model at 35%. Both are trained on the 28,747-email Alam Kaggle dataset with SMOTE oversampling and a Precision-Recall-curve-calibrated decision threshold. Agent reasoning is powered by Meta LLaMA 3 8B served through the Groq inference API.
+
+**Key components:**
+1. **Email Ingest Specialist** — normalizes raw text and extracts five phishing-signal features
+2. **Phishing Risk Analyst** — runs the ensemble classifier and autonomously escalates ambiguous scores via deep regex analysis
+3. **SOC Orchestrator** — applies a four-tier defense policy, queries a persistent SQLite threat memory, and flags repeat offenders
+
+By the end of execution the reader will see trained models evaluated on held-out data, the full agent pipeline processing four diverse test emails, and rich visualizations of classification performance, risk distributions, and agent decision behavior.
+
+---
+
 ## Team Members
 
 | Name | Role |
@@ -49,16 +64,20 @@
 
 ## Project Tier
 
-> **Advanced Tier — Deep Learning + Multi-Agent Agentic AI**
+> **Advanced Tier — Deep Learning + Multi-Agent Agentic AI**  
+> **Agent Option Selected: Option B — Multi-Agent System**
 
 This project sits at the intersection of **deep learning** (BiLSTM + Logistic Regression ensemble) and **agentic AI** (three-agent CrewAI pipeline with SQLite threat memory). It was purpose-built to demonstrate a production-grade security automation workflow rather than a single-pass classifier.
 
+The team selected **Option B (Multi-Agent System)** from the project specification, implementing a fully autonomous three-agent CrewAI sequential pipeline with persistent threat memory — no switch from the Midterm plan.
+
 | Dimension | Details |
 |-----------|---------|
-| **Agent Framework** | Multi-Agent System (CrewAI v0.102) |
+| **Agent Option** | **Option B — Multi-Agent System** |
+| **Agent Framework** | CrewAI v0.102 — Three-Agent Sequential Pipeline |
 | **LLM Provider** | Groq Cloud — LLaMA 3.1 70B |
 | **Core Classifier** | BiLSTM (65%) + Logistic Regression (35%) Ensemble |
-| **Training Dataset** | Alam Dataset — 82,000+ labeled emails |
+| **Training Dataset** | Alam Dataset — 28,747 labeled emails |
 | **Memory** | Persistent SQLite Threat Memory (repeat-offender detection) |
 | **Interface** | Gradio 5.1 Web Dashboard |
 
@@ -108,7 +127,7 @@ The Hunter implements a **sequential agentic pipeline** where each agent's outpu
 
 ### The Deep Learning Ensemble
 
-The probability scoring core is an ensemble trained on the Alam Dataset (82,000+ emails). See notebook **Section: BiLSTM Text Model** and **Section: Ensemble Classifier & Threshold Calibration** for full training details.
+The probability scoring core is an ensemble trained on the Alam Dataset (28,747 emails). See notebook **Section: BiLSTM Text Model** and **Section: Ensemble Classifier & Threshold Calibration** for full training details.
 
 - **BiLSTM (65% weight):** Two-layer stacked network (128 → 64 units) for sequential text classification. Uses a trainable embedding layer for representation learning.
 - **Logistic Regression (35% weight):** Feature-driven secondary metric targeting static counts (URLs, exclamation marks, urgent keywords) trained with SMOTE oversampling.
@@ -123,18 +142,144 @@ The probability scoring core is an ensemble trained on the Alam Dataset (82,000+
 
 </div>
 
+**Text Architecture Diagram — Annotated Agent Pipeline:**
+
+```
++===========================================================================+
+|      THE HUNTER - Automated Email Phishing Defense Detection System       |
+|           CrewAI  |  Three Autonomous Agents  |  Sequential Pipeline      |
++===========================================================================+
+|                                                                           |
+|  [ RAW EMAIL INPUT ]                                                      |
+|         |                                                                 |
+|         v                                                                 |
+|  +--------------------------------------------------+                    |
+|  |  AGENT 1: Email Ingest Specialist                |                    |
+|  |                                                  |                    |
+|  |  PERCEIVES:  Raw email body text                 |                    |
+|  |                                                  |                    |
+|  |  GOAL: Prepare a clean, structured               |                    |
+|  |  representation of this email that gives         |                    |
+|  |  the risk analyst everything needed to           |                    |
+|  |  make an accurate threat assessment.             |                    |
+|  |                                                  |                    |
+|  |  AVAILABLE TOOL:                                 |                    |
+|  |    email_ingest_tool                             |                    |
+|  |      - Strips HTML tags                          |                    |
+|  |      - Normalizes URLs to "url" token            |                    |
+|  |      - Extracts sender fingerprint               |                    |
+|  |      - Computes 5 phishing signal features:      |                    |
+|  |        char_count, word_count, url_count,        |                    |
+|  |        exclaim_count, urgent_keyword_count       |                    |
+|  |                                                  |                    |
+|  |  ACTS: Calls email_ingest_tool, verifies         |                    |
+|  |  output is complete and well-formed              |                    |
+|  |                                                  |                    |
+|  |  OUTPUT: JSON (clean_text, features,             |                    |
+|  |           feature_names, sender_hint)            |                    |
+|  +--------------------------------------------------+                    |
+|         |                                                                 |
+|         | structured email context passed forward                        |
+|         v                                                                 |
+|  +--------------------------------------------------+                    |
+|  |  AGENT 2: Phishing Risk Analyst                  |                    |
+|  |                                                  |                    |
+|  |  PERCEIVES:  Clean email text + 5 features       |                    |
+|  |              from Agent 1                        |                    |
+|  |                                                  |                    |
+|  |  GOAL: Determine whether this email is a         |                    |
+|  |  phishing attempt with enough confidence to      |                    |
+|  |  justify a security action. Use whatever         |                    |
+|  |  tools are necessary to be confident.            |                    |
+|  |                                                  |                    |
+|  |  AVAILABLE TOOLS:                                |                    |
+|  |    phishing_classifier_tool                      |                    |
+|  |      - BiLSTM text model        (65% weight)     |                    |
+|  |      - Logistic Regression      (35% weight)     |                    |
+|  |      - PR-curve optimal threshold                |                    |
+|  |      - Returns risk_score + confidence flag      |                    |
+|  |                                                  |                    |
+|  |    deep_analysis_tool                            |                    |
+|  |      - 6 regex phishing archetype patterns       |                    |
+|  |      - 4 structural red-flag checks              |                    |
+|  |      - Adjusts score by up to +0.34              |                    |
+|  |      - Returns adjusted_risk_score               |                    |
+|  |                                                  |                    |
+|  |  AGENT REASONS:                                  |                    |
+|  |    "Is my current confidence sufficient          |                    |
+|  |     to pass a score forward?                     |                    |
+|  |     Or do I need to investigate further?"        |                    |
+|  |         |                                        |                    |
+|  |         |-- Confident (score < 0.35 or > 0.75)  |                    |
+|  |         |   Agent passes score forward           |                    |
+|  |         |                                        |                    |
+|  |         |-- Uncertain (score 0.35 to 0.75)       |                    |
+|  |             Agent calls deep_analysis_tool       |                    |
+|  |             Agent re-evaluates, then passes      |                    |
+|  |             adjusted score forward               |                    |
+|  |                                                  |                    |
+|  |  OUTPUT: JSON (risk_score or adjusted_risk_score |                    |
+|  |           threshold_used, sender_hint)           |                    |
+|  +--------------------------------------------------+                    |
+|         |                                                                 |
+|         | risk assessment context passed forward                         |
+|         v                                                                 |
+|  +--------------------------------------------------+                    |
+|  |  AGENT 3: SOC Orchestrator                       |                    |
+|  |                                                  |                    |
+|  |  PERCEIVES:  Risk score from Agent 2 +           |                    |
+|  |              sender threat history from SQLite   |                    |
+|  |                                                  |                    |
+|  |  GOAL: Issue the security response that best     |                    |
+|  |  protects the organization, and maintain the     |                    |
+|  |  institutional threat memory so future agents    |                    |
+|  |  can reason about repeat offenders.              |                    |
+|  |                                                  |                    |
+|  |  AVAILABLE TOOLS:                                |                    |
+|  |    defense_policy_tool                           |                    |
+|  |      - 4-tier policy on calibrated threshold:    |                    |
+|  |        score >= 0.90  -->  QUARANTINE            |                    |
+|  |        score >= 0.70  -->  FLAG + WARNING        |                    |
+|  |        score >= t*    -->  ALLOW AND LOG         |                    |
+|  |        score <  t*    -->  ALLOW                 |                    |
+|  |        (t* = PR-curve optimal threshold)         |                    |
+|  |                                                  |                    |
+|  |    threat_memory_tool                            |                    |
+|  |      - Reads sender history from SQLite          |                    |
+|  |      - Writes new verdict to SQLite              |                    |
+|  |      - Returns past_incidents + repeat flag      |                    |
+|  |                                                  |                    |
+|  |  AGENT REASONS:                                  |                    |
+|  |    "What does the risk score say?                |                    |
+|  |     What does this sender's history say?         |                    |
+|  |     What is the right action for the org?"       |                    |
+|  |                                                  |                    |
+|  |  ACTS: Issues verdict, logs to memory,           |                    |
+|  |  flags repeat offenders in final output          |                    |
+|  |                                                  |                    |
+|  |  OUTPUT: JSON (action, explanation,              |                    |
+|  |           risk_score, past_incidents,            |                    |
+|  |           repeat_offender, memory_summary)       |                    |
+|  +--------------------------------------------------+                    |
+|         |                                                                 |
+|         v                                                                 |
+|  [ FINAL VERDICT + THREAT LOG ENTRY ]                                     |
+|                                                                           |
++===========================================================================+
+```
+
 ---
 
 ## Dataset
 
 **Primary Dataset: Alam Dataset (Kaggle)**
 
-The BiLSTM and Logistic Regression ensemble models are trained on the Alam Dataset, a publicly available benchmark with over 82,000 labeled emails (phishing and legitimate).
+The BiLSTM and Logistic Regression ensemble models are trained on the Alam Dataset, a publicly available benchmark with 28,747 labeled emails (phishing and legitimate).
 
 | Property | Details |
 |----------|---------|
 | **Source** | Kaggle — downloaded via `kagglehub` (v0.3.8) |
-| **Size** | 82,000+ labeled email records |
+| **Size** | 28,747 labeled email records |
 | **Labels** | Binary — `1` (phishing), `0` (legitimate) |
 | **Language** | English only |
 | **Access** | Automatically downloaded in notebook cell under **Section: Data Acquisition - Alam Dataset** |
@@ -161,6 +306,27 @@ The `data/` directory in this repository contains sample data files. Full datase
 - **Python 3.10 or 3.11** (TensorFlow 2.16.2 does not support Python 3.12+)
 - A free **Groq API key** from [console.groq.com](https://console.groq.com) (LLaMA 3.1 — free tier available)
 - Git installed locally
+
+### Python Package Dependencies
+
+All packages are pinned in `requirements.txt`. Install with `pip install -r requirements.txt`.
+
+| Package | Version | Purpose |
+|---------|---------|--------|
+| `crewai` | 0.102.0 | Multi-agent orchestration framework — defines agents, tasks, tools, and sequential pipeline |
+| `tensorflow` | 2.16.2 | BiLSTM neural network training and inference (Keras backend) |
+| `scikit-learn` | 1.5.2 | Logistic Regression classifier, StandardScaler, train/test split, metrics |
+| `imbalanced-learn` | 0.12.4 | SMOTE oversampling to correct class imbalance in Logistic Regression training |
+| `kagglehub` | 0.3.8 | Automated dataset download from Kaggle (Alam Dataset) |
+| `pandas` | 2.2.3 | DataFrame operations, dataset loading, feature engineering |
+| `numpy` | 1.26.4 | Numerical arrays, ensemble score computation, feature vectors |
+| `matplotlib` | 3.9.4 | Static training charts (accuracy/loss curves, confusion matrix, bar charts) |
+| `seaborn` | 0.13.2 | Styled heatmaps and distribution plots (feature correlation matrix) |
+| `plotly` | 5.24.1 | Interactive risk score distribution histogram (Results & Evaluation section) |
+| `python-dotenv` | 1.0.1 | Loads `GROQ_API_KEY` from `.env` file for secure local credential management |
+| `pydantic` | 2.10.6 | Agent output schema validation in CrewAI tool definitions |
+| `gradio` | 5.1.0 | Gradio web dashboard — real-time email submission interface |
+| `litellm` | 1.50.1 | Unified LLM API abstraction layer; handles Groq rate-limit retries |
 
 ### Required Environment Variables
 
@@ -409,7 +575,7 @@ All 4 emails processed successfully.
 | **Deep Learning** | TensorFlow / Keras | 2.16.2 | BiLSTM classifier training and inference |
 | **Classical ML** | scikit-learn | 1.5.2 | Logistic Regression feature classifier |
 | **Data Balancing** | imbalanced-learn (SMOTE) | 0.12.4 | Oversampling for class imbalance correction |
-| **Data Source** | Kaggle (Alam Dataset) via kagglehub | 0.3.8 | 82,000+ labeled phishing/legitimate emails |
+| **Data Source** | Kaggle (Alam Dataset) via kagglehub | 0.3.8 | 28,747 labeled phishing/legitimate emails |
 | **Web Interface** | Gradio | 5.1.0 | Interactive web dashboard |
 | **LLM Routing** | LiteLLM | 1.50.1 | Unified LLM API abstraction layer |
 | **Environment** | python-dotenv | 1.0.1 | Secure API key management |
@@ -433,7 +599,6 @@ The Hunter/
 │   └── README.md                                               # data/ folder documentation
 │
 ├── docs/
-│   ├── FN_Demo_Chloe_Tu_Team_1_ITAI2376.mp4                   # Full 5-minute demo video (~126 MB)
 │   ├── Final/
 │   │   └── final_project_writeup.md                           # Final project technical writeup
 │   ├── Midterm/
@@ -441,6 +606,8 @@ The Hunter/
 │   │   ├── MD_Blueprint_Tu_Chloe_Team_1_ITAI2376.pdf          # Midterm blueprint (PDF, submitted to Canvas)
 │   │   └── The Hunter Architecture Diagram.png                # Full system architecture diagram
 │   └── README.md                                               # docs/ folder documentation
+│                                                               # NOTE: Demo video (~126 MB) hosted externally
+│                                                               #       → https://drive.google.com/file/d/161p0kqwoJIKhUynKDgCN5GdeUNTUhVjh/view
 │
 ├── models/
 │   ├── bilstm_model.keras                                      # Trained BiLSTM neural network (~34 MB, 65% ensemble weight)
@@ -452,11 +619,14 @@ The Hunter/
 │
 ├── notebooks/
 │   ├── Demo_The_Hunter_App.ipynb                               # Guided Colab demo notebook (no training required)
-│   ├── The Hunter-Automated Email Phishing Defense
-│   │       Detection System.ipynb                              # Full training notebook: EDA → BiLSTM → Ensemble → CrewAI → Demo
+│   ├── The Hunter-Automated Email Phishing Defense Detection System.ipynb  # Full training notebook: EDA → BiLSTM → Ensemble → CrewAI → Demo
 │   └── README.md                                               # notebooks/ folder documentation
 │
 ├── results/
+│   ├── Pipeline_Execution.txt                                  # Full 4-email pipeline terminal log (~105 KB)
+│   ├── The_Hunter_crewai_Traces.txt                            # Curated CrewAI Crew Completion trace (~8 KB)
+│   ├── README.md                                               # results/ folder documentation
+│   │
 │   ├── demo_visualizations/                                    # 22 screenshots from live Gradio dashboard runs
 │   │   ├── The_Hunter_icon_image.png                           # Project icon / logo
 │   │   ├── The_Hunter_Interface.png                            # Dashboard home screen (hero image)
@@ -481,25 +651,20 @@ The Hunter/
 │   │   ├── The_Hunter_Repeat_Sender_All_Threat_History.png     # Repeat sender — All Threat History tab
 │   │   └── The_Hunter_Repeat_Sender_Threat_Memory.png          # Repeat sender — Threat Memory tab
 │   │
-│   ├── notebook_visualizations/                                # 9 training charts + 2 log files
-│   │   ├── BiLSTM_Training_History.png                         # Training accuracy & loss curves (4-panel)
-│   │   ├── Class_Distribution-Alam_Phishing_Dataset.png        # Class imbalance bar chart
-│   │   ├── Confusion_Matrix-Ensemble.png                       # Normalized ensemble confusion matrix
-│   │   ├── Ensemble_Risk_Score_Distribution_by_True_Label.png  # Risk score histogram by true label
-│   │   ├── Feature_Correlation_Matrix.png                      # Pearson correlation heatmap (5 features)
-│   │   ├── Model_Performance.png                               # BiLSTM vs LR vs Ensemble bar chart
-│   │   ├── Precision-Recall_Curve-Ensemble.png                 # PR curve with optimal threshold marked
-│   │   ├── Text_Length_Distribution_by_Class.png               # Email length histogram by class
-│   │   ├── Top_10_Features-Cratchley_RF.png                    # Top 10 Random Forest feature importances
-│   │   ├── Pipeline_Execution.txt                              # Full 4-email pipeline terminal log (~105 KB)
-│   │   └── The_Hunter_crewai_Traces.txt                        # Curated CrewAI Crew Completion trace (~8 KB)
-│   │
-│   └── README.md                                               # results/ folder documentation
+│   └── notebook_visualizations/                                # 9 training charts exported from the notebook
+│       ├── BiLSTM_Training_History.png                         # Training accuracy & loss curves (4-panel)
+│       ├── Class_Distribution-Alam_Phishing_Dataset.png        # Class imbalance bar chart
+│       ├── Confusion_Matrix-Ensemble.png                       # Normalized ensemble confusion matrix
+│       ├── Ensemble_Risk_Score_Distribution_by_True_Label.png  # Risk score histogram by true label
+│       ├── Feature_Correlation_Matrix.png                      # Pearson correlation heatmap (5 features)
+│       ├── Model_Performance.png                               # BiLSTM vs LR vs Ensemble bar chart
+│       ├── Precision-Recall_Curve-Ensemble.png                 # PR curve with optimal threshold marked
+│       ├── Text_Length_Distribution_by_Class.png               # Email length histogram by class
+│       └── Top_10_Features-Cratchley_RF.png                    # Top 10 Random Forest feature importances
 │
 ├── .env.example                                                # API key template (copy to .env, add your Groq key)
 ├── .gitignore                                                  # Excludes .env, __pycache__, large model caches
 ├── LICENSE                                                     # MIT License
-├── QUICKSTART.md                                               # Step-by-step launch guide (local + Colab)
 ├── README.md                                                   # You are here — full project documentation
 ├── REFLECTION.md                                               # Team reflection: what worked, limitations, next steps
 └── requirements.txt                                            # All Python dependencies with pinned versions
@@ -665,10 +830,10 @@ https://secure-login-verify.com/auth — Security Team
 
 ## Demo Video
 
-> **The demo video file (~126 MB) is too large to preview directly on GitHub.**
+> **The demo video file (~126 MB) is too large to host on GitHub.**  
 > **Watch the full demo on Google Drive:**
 
-### [Watch Demo Video on Google Drive](https://drive.google.com/file/d/161p0kqwoJIKhUynKDgCN5GdeUNTUhVjh/view?usp=sharing)
+### [▶ Watch Demo Video on Google Drive](https://drive.google.com/file/d/161p0kqwoJIKhUynKDgCN5GdeUNTUhVjh/view?usp=sharing)
 
 > *Click the link above to stream the video directly in your browser — no download required.*
 
@@ -684,8 +849,6 @@ https://secure-login-verify.com/auth — Security Team
 | 4 | Demonstrating **repeat offender escalation** | `BLOCK` — SQLite Threat Memory detects prior offender, auto-escalates |
 
 The video includes narration explaining each agent's role, the BiLSTM ensemble risk score, and how the **4-tier defense policy** (ALLOW / LOG / QUARANTINE / BLOCK) is applied in real time.
-
-> **Local file:** The `.mp4` file is also included in the repository at [`docs/FN_Demo_Chloe_Tu_Team_1_ITAI2376.mp4`](docs/FN_Demo_Chloe_Tu_Team_1_ITAI2376.mp4) for offline viewing after cloning.
 
 ---
 

@@ -1,8 +1,10 @@
 # The Hunter: Automated Email Phishing Defense Detection System
 
-**ITAI 2376 - Deep Learning in Artificial Intelligence**
-**Midterm Blueprint - Spring 2026**
-**[Student Last Name], [Student First Name] | ITAI2376**
+**ITAI 2376 - Deep Learning in Artificial Intelligence**  
+**Midterm Blueprint - Spring 2026**  
+**Tu, Chloe | Team 1 | ITAI2376**
+
+**Team Members:** Chloe Tu · Matthew Choo · Franck Kolontchang
 
 ---
 
