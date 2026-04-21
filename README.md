@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="results/demo_visualizations/The_Hunter_icon_image.png" alt="The Hunter Icon" width="120"/>
+<img src="results/demo_visualizations/The_Hunter_icon_image.png" alt="The Hunter Icon" width="200"/>
 
 # The Hunter: Agentic Phishing Defense System
 
@@ -8,16 +8,16 @@
 
 ---
 
-![Python](https://img.shields.io/badge/Python-3.10%2B-3776AB?style=for-the-badge&logo=python&logoColor=white)
-![CrewAI](https://img.shields.io/badge/CrewAI-0.102.0-FF6B35?style=for-the-badge&logo=robot&logoColor=white)
-![TensorFlow](https://img.shields.io/badge/TensorFlow-2.16.2-FF6F00?style=for-the-badge&logo=tensorflow&logoColor=white)
-![Gradio](https://img.shields.io/badge/Gradio-5.1.0-F97316?style=for-the-badge&logo=gradio&logoColor=white)
-![Groq](https://img.shields.io/badge/LLM-Groq%20%7C%20LLaMA%203.1-00A67E?style=for-the-badge&logo=meta&logoColor=white)
-![scikit-learn](https://img.shields.io/badge/scikit--learn-1.5.2-F7931E?style=for-the-badge&logo=scikit-learn&logoColor=white)
-![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)
-![ITAI2376](https://img.shields.io/badge/ITAI%202376-Final%20Project-blueviolet?style=for-the-badge)
-![Multi-Agent](https://img.shields.io/badge/Agent%20Type-Multi--Agent%20System-crimson?style=for-the-badge)
-![Project Tier](https://img.shields.io/badge/Project%20Tier-Advanced%20%7C%20Deep%20Learning%20%2B%20Agentic%20AI-gold?style=for-the-badge)
+![Python](https://img.shields.io/badge/Python-3.10%2B-blue?logo=python&logoColor=white)
+![CrewAI](https://img.shields.io/badge/CrewAI-0.102.0-FF6B35)
+![TensorFlow](https://img.shields.io/badge/TensorFlow-2.16.2-FF6F00?logo=tensorflow&logoColor=white)
+![Gradio](https://img.shields.io/badge/Gradio-5.1.0-F97316)
+![Groq](https://img.shields.io/badge/LLM-Groq%20%7C%20LLaMA%203.1-00A67E?logo=meta&logoColor=white)
+![scikit-learn](https://img.shields.io/badge/scikit--learn-1.5.2-F7931E?logo=scikit-learn&logoColor=white)
+![License](https://img.shields.io/badge/license-MIT-green.svg)
+![ITAI2376](https://img.shields.io/badge/ITAI%202376-Final%20Project-blueviolet)
+![Multi-Agent](https://img.shields.io/badge/Agent%20Type-Multi--Agent%20System-crimson)
+![Project Tier](https://img.shields.io/badge/Project%20Tier-Advanced%20%7C%20Deep%20Learning%20%2B%20Agentic%20AI-gold)
 
 ---
 
