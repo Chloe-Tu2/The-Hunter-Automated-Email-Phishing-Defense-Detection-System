@@ -12,7 +12,7 @@ two pipeline log files stored directly in this folder.
 results/
 ├── Pipeline_Execution.txt                                       # Full 4-email pipeline terminal log (~105 KB)
 ├── The_Hunter_crewai_Traces.txt                                 # Curated CrewAI Crew Completion trace (~8 KB)
-├── README.md                                                    # This file
+├── README.md                                                    # This file — results folder documentation
 │
 ├── demo_visualizations/                                         # 22 files — live dashboard screenshots
 │   ├── The_Hunter_icon_image.png
