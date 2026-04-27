@@ -13,6 +13,7 @@ pipeline in demo mode.
 
 ```
 models/
+├── README.md               # This file — models folder documentation
 ├── bilstm_model.keras      # NOT in GitHub — ~34 MB — BiLSTM neural network weights
 ├── logreg_model.pkl        # In GitHub — <1 KB — Logistic Regression classifier
 ├── scaler.pkl              # In GitHub — <1 KB — StandardScaler for feature normalization
