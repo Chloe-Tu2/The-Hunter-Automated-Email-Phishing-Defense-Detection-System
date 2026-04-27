@@ -28,7 +28,7 @@ docs/
 
 | Property | Value |
 |----------|-------|
-| **Duration** | ~7 minutes |
+| **Duration** | ~7.57 minutes |
 | **Format** | MP4 video |
 | **In GitHub** | **Not included** — file is ~126 MB, too large for GitHub |
 
