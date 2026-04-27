@@ -57,7 +57,7 @@ By the end of execution the reader will see trained models evaluated on held-out
 | Name | Role |
 |------|------|
 | **Chloe Tu** | Lead Developer — BiLSTM Model Training, CrewAI Orchestration, Gradio Dashboard |
-| **Mattew Choo** | Data Engineer — Dataset Preprocessing, SMOTE Balancing, Feature Engineering |
+| **Matthew Choo** | Data Engineer — Dataset Preprocessing, SMOTE Balancing, Feature Engineering |
 | **Franck Kolontchang** | Systems Architect — Agent Design, Tool Integration, SQLite Threat Memory |
 
 **Course:** ITAI 2376 — Artificial Intelligence & Deep Learning  
