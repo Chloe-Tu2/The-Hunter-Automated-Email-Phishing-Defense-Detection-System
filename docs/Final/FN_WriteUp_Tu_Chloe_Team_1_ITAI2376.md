@@ -13,7 +13,7 @@ The Hunter is an email phishing detection system. It takes a raw email, runs it 
 
 Agent 1 (the Ingest Specialist) cleans up the raw email text and pulls out signals like URL count, urgency keywords, and text length. Agent 2 (the Risk Analyst) feeds that cleaned text into the ensemble classifier, gets a phishing probability score, and decides on its own whether the score is confident enough or whether it needs to dig deeper with regex-based pattern analysis. Agent 3 (the SOC Orchestrator) takes the risk assessment, applies a four-tier defense policy, checks a SQLite threat memory database for repeat offenders, and writes the final security verdict.
 
-We tested it on four emails an obvious phishing email, a clean legitimate one, a borderline case, and a repeat sender — to show that it handles each situation differently and autonomously.
+We tested it on four emails an obvious phishing email, a clean legitimate one, a borderline case, and a repeat sender to show that it handles each situation differently and autonomously.
 
 ---
 
@@ -29,7 +29,7 @@ For the final, we implemented the blueprint end-to-end in a single Colab-ready J
 
 The blueprint anticipated four challenges: keeping agent tasks goal-oriented rather than scripted, borderline email misclassification, class imbalance in training data, and SQLite persistence across Colab sessions. We addressed all four of those. What we did not anticipate were the infrastructure-level problems that ended up consuming most of our debugging time.
 
-**The LLM was decommissioned.** The blueprint specified Groq's `llama3-8b-8192` model for agent reasoning. Groq deprecated that model during our development window. We had to migrate to `llama-3.1-8b-instant` a newer version of the same model family — and update every agent definition and configuration reference.
+**The LLM was decommissioned.** The blueprint specified Groq's `llama3-8b-8192` model for agent reasoning. Groq deprecated that model during our development window. We had to migrate to `llama-3.1-8b-instant` a newer version of the same model family and update every agent definition and configuration reference.
 
 **The tool interfaces had to get simpler.** The blueprint designed the classifier tool to accept multiple input fields: cleaned text, pre-computed features, feature names, and a sender hint. When we built this, Groq's tool-calling validation treated every field as required regardless of our Optional annotations in the Pydantic schema, so every call to the classifier failed. We had to strip the input down to a single field (just the email text) and have the tool compute all derived features internally. The blueprint's architecture diagram shows a richer data hand-off between agents than what survived contact with the API.
 
@@ -67,9 +67,9 @@ We integrated two models into an ensemble classifier, exactly as the blueprint d
 
 The ensemble combines both models' probability scores using those weights. Instead of a default 0.5 cutoff, we computed the optimal threshold from the Precision-Recall curve on held-out test data. For a security system, missing a real phishing email is worse than flagging a safe one, so the threshold is set with that priority.
 
-We also evaluated a standalone Random Forest on the Cratchley dataset (500,000+ emails with header and metadata features) to show that phishing signals exist beyond the email body. That model is not wired into the agent pipeline because its features — things like domain age and DNS records are not available from raw email text at runtime. The blueprint explained this separation, and we kept it.
+We also evaluated a standalone Random Forest on the Cratchley dataset (500,000+ emails with header and metadata features) to show that phishing signals exist beyond the email body. That model is not wired into the agent pipeline because its features things like domain age and DNS records are not available from raw email text at runtime. The blueprint explained this separation, and we kept it.
 
-The BiLSTM ensemble connects to the agent system through Agent 2's classifier tool. When Agent 2 calls the tool, it runs the ensemble and returns a phishing probability score. Agent 2 then reasons about the score and decides whether to pass it forward or escalate to deeper analysis. That reasoning comes from the Transformer powering the agent (LLaMA 3.1 8B via Groq — Module 05), not from any if-statement in our code. The blueprint called this the "architectural division of labor": the BiLSTM does deep sequence classification, and the Transformer does reasoning and tool orchestration. Both are essential and neither could replace the other.
+The BiLSTM ensemble connects to the agent system through Agent 2's classifier tool. When Agent 2 calls the tool, it runs the ensemble and returns a phishing probability score. Agent 2 then reasons about the score and decides whether to pass it forward or escalate to deeper analysis. That reasoning comes from the Transformer powering the agent (LLaMA 3.1 8B via Groq Module 05), not from any if-statement in our code. The blueprint called this the "architectural division of labor": the BiLSTM does deep sequence classification, and the Transformer does reasoning and tool orchestration. Both are essential and neither could replace the other.
 
 ---
 
@@ -87,7 +87,7 @@ The BiLSTM ensemble connects to the agent system through Agent 2's classifier to
 
 The common theme is that the agent design itself was sound. What broke was the layer between the agents and the LLM provider. Most of our debugging time went into problems that had nothing to do with phishing detection and everything to do with API behavior, rate limits, and LLM unpredictability.
 
-**What we would improve with more time.** Train on a larger and more diverse email dataset — 28,000 emails from one source is limited and domain shift to enterprise email styles would likely degrade accuracy. Add email header and DNS metadata features to the pipeline, drawing on the Cratchley-style signals we evaluated separately. Implement campaign-level detection so the system can recognize coordinated phishing attacks targeting multiple recipients. While we successfully upgraded our deliverable from a notebook demonstration to a real-time deployed Gradio frontend service, in the future we would replace the frontend with direct webhook integrations into enterprise email servers.
+**What we would improve with more time.** Train on a larger and more diverse email dataset 28,000 emails from one source is limited and domain shift to enterprise email styles would likely degrade accuracy. Add email header and DNS metadata features to the pipeline, drawing on the Cratchley-style signals we evaluated separately. Implement campaign-level detection so the system can recognize coordinated phishing attacks targeting multiple recipients. While we successfully upgraded our deliverable from a notebook demonstration to a real-time deployed Gradio frontend service, in the future we would replace the frontend with direct webhook integrations into enterprise email servers.
 
 ---
 
