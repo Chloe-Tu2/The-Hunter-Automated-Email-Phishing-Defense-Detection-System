@@ -10,6 +10,7 @@ builds the three-agent pipeline, and renders the full HTML interface — all fro
 
 ```
 app/
+├── README.md                   # This file
 └── hunter_gradio_app.py        # Main web dashboard (1,053 lines, ~50 KB)
 ```
 
