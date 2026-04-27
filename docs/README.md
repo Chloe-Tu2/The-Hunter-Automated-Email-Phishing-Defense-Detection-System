@@ -10,12 +10,13 @@ Midterm blueprint (both PDF and Markdown), and the architecture diagram.
 ```
 docs/
 ├── Final/
-│   └── final_project_writeup.md            # Final project technical writeup
+│   ├── FN_WriteUp_Tu_Chloe_Team_1_ITAI2376.md      # Final project writeup (Markdown, GitHub-readable)
+│   └── FN_WriteUp_Tu_Chloe_Team_1_ITAI2376.pdf     # Final project writeup (PDF, submitted to Canvas)
 ├── Midterm/
-│   ├── MD_Blueprint_Tu_Chloe_Team_1_ITAI2376.md    # Midterm blueprint (Markdown)
-│   ├── MD_Blueprint_Tu_Chloe_Team_1_ITAI2376.pdf   # Midterm blueprint (PDF, submitted)
-│   └── The Hunter Architecture Diagram.png          # System architecture diagram
-└── README.md                                        # This file
+│   ├── MD_Blueprint_Tu_Chloe_Team_1_ITAI2376.md    # Midterm blueprint (Markdown, GitHub-readable)
+│   ├── MD_Blueprint_Tu_Chloe_Team_1_ITAI2376.pdf   # Midterm blueprint (PDF, submitted to Canvas)
+│   └── The Hunter Architecture Diagram.png          # Full system architecture diagram
+└── README.md                                        # This file — docs folder documentation
 ```
 
 ---
@@ -60,15 +61,20 @@ docs/
 
 ## Final/ Subfolder
 
-### final_project_writeup.md
+### FN_WriteUp_Tu_Chloe_Team_1_ITAI2376.md
 
 | Property | Value |
 |----------|-------|
-| **Size** | ~13 KB / 99 lines |
-| **Format** | Markdown |
+| **Size** | ~13 KB |
+| **Format** | Markdown (GitHub-readable) |
 | **Author** | Chloe Tu, Matthew Choo, Franck Kolontchang |
+| **Course** | ITAI 2376 — Artificial Intelligence & Deep Learning |
+| **Submission** | Final Project — Spring 2026 |
 
-This document is the formal written component of the Final Project submission.
+This is the Markdown source of the formal final project writeup — rendered directly on
+GitHub for easy reading. It is the same content as the PDF below, formatted in Markdown
+so it displays cleanly in the repository browser.
+
 It addresses all required writeup sections:
 
 | Section | Content |
@@ -80,6 +86,23 @@ It addresses all required writeup sections:
 | **Deep Learning Models and How They Fit** | Technical description of BiLSTM (Module 04 — RNN), Logistic Regression with SMOTE, ensemble weighting, threshold calibration, and Cratchley Random Forest analysis |
 | **What Worked, What Did Not, and What We Would Improve** | Honest assessment: agent separation worked; infrastructure (rate limits, hallucinations, deprecated models) was the primary challenge |
 | **One Thing That Surprised Us About AI Agents** | Reflection on how most debugging time went to API/infrastructure issues rather than agent design |
+
+---
+
+### FN_WriteUp_Tu_Chloe_Team_1_ITAI2376.pdf
+
+| Property | Value |
+|----------|-------|
+| **Size** | ~136 KB |
+| **Format** | PDF (submitted to Canvas for Final Project) |
+| **Author** | Chloe Tu, Matthew Choo, Franck Kolontchang |
+| **Course** | ITAI 2376 — Artificial Intelligence & Deep Learning |
+| **Submission** | Final Project — Spring 2026 |
+
+This is the official Canvas submission version of the final project writeup.
+It contains the identical content as the `.md` file above, exported to PDF for
+formal grading submission. This document serves as the primary graded written
+component of the Final Project deliverable.
 
 ---
 

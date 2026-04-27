@@ -90,6 +90,8 @@ An alternate angle of the dashboard interface showing the System Status panel
 (model load confirmation, API key status, CrewAI readiness) and the All Threat
 History tab with a populated verdict table.
 
+![The Hunter Interface 2](demo_visualizations/The_Hunter_interface_2.png)
+
 ---
 
 ### Clear Phishing Email Screenshots
@@ -135,6 +137,8 @@ The Threat Memory tab for the clear phishing email: Agent 3's SQLite lookup
 for the sender ("unknown"), showing prior incidents table or first-time sender
 confirmation.
 
+![Clear Phishing Threat Memory](demo_visualizations/The_Hunter_Clear_Phishing_Threat_Memory.png)
+
 ---
 
 ### Clean Legitimate Email Screenshots
@@ -156,6 +160,8 @@ a risk score of 0.0 and the explanation: "Clean email. No action required."
 Pipeline Analysis tab: all feature counts at zero (no URLs, no urgency words,
 no exclamation marks); all three score bars at or near 0.0.
 
+![Clean Legitimate Pipeline Analysis](demo_visualizations/The_Hunter_Clean_Legitimate_Pipeline_analysis.png)
+
 ---
 
 **The_Hunter_Clean_Legitimate_Agent_Reasoning_Trace.png** (~159 KB)
@@ -164,6 +170,8 @@ Agent Reasoning Trace showing Agent 2 correctly reporting a 0.0 score with
 high confidence, and Agent 3 applying the ALLOW policy without consulting
 the deep analysis tool.
 
+![Clean Legitimate Agent Reasoning Trace](demo_visualizations/The_Hunter_Clean_Legitimate_Agent_Reasoning_Trace.png)
+
 ---
 
 **The_Hunter_Clean_Legitimate_All_Threat_History.png** (~166 KB)
@@ -171,11 +179,15 @@ the deep analysis tool.
 All Threat History tab showing the full database contents including all entries
 from prior email submissions, demonstrating the persistent SQLite memory.
 
+![Clean Legitimate All Threat History](demo_visualizations/The_Hunter_Clean_Legitimate_All_Threat_History.png)
+
 ---
 
 **The_Hunter_Clean_Legitimate_Threat_Memory.png** (~110 KB)
 
 Threat Memory tab for the legitimate email sender, showing no prior incidents.
+
+![Clean Legitimate Threat Memory](demo_visualizations/The_Hunter_Clean_Legitimate_Threat_Memory.png)
 
 ---
 
@@ -189,6 +201,8 @@ Expected behavior: Agent 2 triggers deep analysis; verdict may vary
 Verdict tab for the borderline email — shows whatever verdict Agent 3 issued
 after deep analysis. Demonstrates the system's handling of genuinely ambiguous
 cases.
+
+![Borderline Ambiguous Verdict](demo_visualizations/The_Hunter_Borderline_Ambiguous_Verdict_Quarantine.png)
 
 ---
 
@@ -208,6 +222,8 @@ Agent Reasoning Trace showing Agent 2 calling both `phishing_classifier_tool`
 and `deep_analysis_tool` in sequence when the initial score falls in the
 ambiguous band (0.35–0.75).
 
+![Borderline Ambiguous Agent Reasoning Trace](demo_visualizations/The_Hunter_Borderline_Ambiguous_Agent_Reasoning_Trace.png)
+
 ---
 
 **The_Hunter_Borderline_Ambiguous_All_Threat_History.png** (~166 KB)
@@ -215,11 +231,15 @@ ambiguous band (0.35–0.75).
 All Threat History tab after the borderline email run, showing the accumulated
 database entries.
 
+![Borderline Ambiguous All Threat History](demo_visualizations/The_Hunter_Borderline_Ambiguous_All_Threat_History.png)
+
 ---
 
 **The_Hunter_Borderline_Ambiguous_Threat_Memory.png** (~113 KB)
 
 Threat Memory tab for the borderline email sender.
+
+![Borderline Ambiguous Threat Memory](demo_visualizations/The_Hunter_Borderline_Ambiguous_Threat_Memory.png)
 
 ---
 
@@ -242,6 +262,8 @@ threat memory. Auto-escalated."
 
 Pipeline Analysis tab for the repeat sender email, showing feature extraction
 and scoring identical to Test 1 (same email body).
+
+![Repeat Sender Pipeline Analysis](demo_visualizations/The_Hunter_Repeat_Sender_Pipeline_Analysis.png)
 
 ---
 
