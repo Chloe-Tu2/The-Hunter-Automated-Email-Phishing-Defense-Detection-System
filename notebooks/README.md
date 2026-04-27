@@ -10,6 +10,7 @@ for live demonstration without re-running training.
 
 ```
 notebooks/
+├── README.md                                                            # This file — notebooks folder documentation
 ├── The Hunter-Automated Email Phishing Defense Detection System.ipynb   # Primary notebook (~1.7 MB)
 └── Demo_The_Hunter_App.ipynb                                            # Colab demo notebook (~16 KB)
 ```
