@@ -10,6 +10,7 @@ from Kaggle at notebook runtime via `kagglehub`.
 
 ```
 data/
+├── README.md               # This file — data folder documentation
 └── threat_memory.db        # SQLite persistent threat memory database (auto-created)
 ```
 
